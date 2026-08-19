@@ -468,20 +468,30 @@ st.caption(
 flow_col1, flow_col2 = st.columns([1, 1])
 
 with flow_col1:
-    reps_list = sorted(set(outlet_flow["From_Rep_Loses_Outlets"]) | set(outlet_flow["To_Rep_Gains_Outlets"]))
-    rep_idx = {r: i for i, r in enumerate(reps_list)}
+    # 1. Split reps into distinct "Givers" and "Receivers" lists
+    from_reps = sorted(outlet_flow["From_Rep_Loses_Outlets"].unique())
+    to_reps = sorted(outlet_flow["To_Rep_Gains_Outlets"].unique())
+    
+    # 2. Create unique background IDs to prevent Plotly from looping them backward
+    nodes = [r + " (From)" for r in from_reps] + [r + " (To)" for r in to_reps]
+    rep_idx = {name: i for i, name in enumerate(nodes)}
+    
+    # 3. Match colors and use clean names for the visual chart labels
+    node_colors = [REP_COLORS.get(r, "#999") for r in from_reps] + [REP_COLORS.get(r, "#999") for r in to_reps]
+    node_labels = from_reps + to_reps
+
     fig_sankey = go.Figure(
         go.Sankey(
             textfont=dict(color=BROWN, size=12), # Force Sankey Text Color
             node=dict(
-                label=reps_list,
-                color=[REP_COLORS.get(r, "#999") for r in reps_list],
+                label=node_labels,
+                color=node_colors,
                 pad=20,
                 thickness=18,
             ),
             link=dict(
-                source=[rep_idx[r] for r in outlet_flow["From_Rep_Loses_Outlets"]],
-                target=[rep_idx[r] for r in outlet_flow["To_Rep_Gains_Outlets"]],
+                source=[rep_idx[r + " (From)"] for r in outlet_flow["From_Rep_Loses_Outlets"]],
+                target=[rep_idx[r + " (To)"] for r in outlet_flow["To_Rep_Gains_Outlets"]],
                 value=outlet_flow["Retail_Outlets_Transferred"],
                 color="rgba(177,74,38,0.35)",
             ),

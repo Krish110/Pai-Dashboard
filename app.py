@@ -5,10 +5,9 @@ Ivey Case W25442 | Streamlit prototype
 Run locally:
     pip install -r requirements.txt
     streamlit run app.py
-
-Data source: Pais_Bakery_Territory_Dashboard_Data.xlsx (exported to /data as CSVs)
 """
 
+import io
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -66,16 +65,150 @@ st.markdown(
 )
 
 # ----------------------------------------------------------------------------
-# DATA LOADING
+# DATA LOADING (Embedded)
 # ----------------------------------------------------------------------------
 @st.cache_data
 def load_data():
-    territories = pd.read_csv("data/territories_master.csv")
-    reps = pd.read_csv("data/sales_reps.csv")
-    map_data = pd.read_csv("data/map_data.csv").dropna(subset=["Latitude", "Longitude"])
-    outlet_flow = pd.read_csv("data/outlet_flow.csv")
-    sales_flow = pd.read_csv("data/sales_flow.csv")
-    rep_impact = pd.read_csv("data/rep_impact.csv")
+    territories_csv = """Territory_Code,Territory_Name,Retail_Outlets_Served,Retail_Outlets_Not_Served,Total_Potential_Outlets,Penetration_Pct,Latitude,Longitude
+A,Azam Nagar-Kangrali,27,9,36,0.75,15.882,74.513
+B,Sulga,24,9,33,0.727272727272727,15.871,74.535
+C,Sadashiv Nagar,39,11,50,0.78,15.865,74.505
+D,Nehru Nagar,21,10,31,0.67741935483871,15.86,74.507
+E,Hindalga,15,5,20,0.75,15.83,74.47
+F,Camp-Nanawadi,26,16,42,0.619047619047619,15.848,74.497
+G,Khade Bazaar,10,22,32,0.3125,15.853,74.503
+H,Gandhi Nagar,37,15,52,0.711538461538462,15.845,74.51
+I,Mandoli,30,8,38,0.789473684210526,15.84,74.54
+J,R.C. Nagar,27,25,52,0.519230769230769,15.842,74.515
+K,Tilakwadi,28,9,37,0.756756756756757,15.8377,74.5009
+L,Kapleshwar,7,14,21,0.333333333333333,15.848,74.502
+M,Shahpur,16,9,25,0.64,15.843,74.5176
+N,Navge,19,7,26,0.730769230769231,15.9,74.56
+O,Mache-Peeranwadi,12,20,32,0.375,15.83,74.46
+P,Udyambag,11,23,34,0.323529411764706,15.8,74.49
+Q,Majagaon,8,6,14,0.571428571428571,15.95,74.55
+R,Angol-Bhagya Nagar,13,26,39,0.333333333333333,15.815,74.505
+S,Hindwadi,2,1,3,0.666666666666667,15.85,74.495
+T,Vadgaon,6,1,7,0.857142857142857,15.8,74.51"""
+    
+    reps_csv = """Sales_Rep,Age_Years,Years_At_Pais_Bakery,Route_A_Days_Per_Week,Route_B_Days_Per_Week,Total_Retail_Outlets,Avg_Daily_Sales_INR,Jyotsna_Pais_Assessment,Personal_Details
+Bheem,45,18,0,6,106,25462,"Can be cunning, very street smart; very happy with average performance; unwilling or unable to add new retail outlets",Employed another individual for ₹350 per day; covered the largest number of retail outlets
+Govind,35,3,6,0,61,21830,"Hard working and hungry for growth; facing financial stress, aggressively looking for more income","Purchased new vehicle utilizing a loan of ₹250,000 at 10% interest over a 3-year term"
+Hari,38,9,5,2,56,25900,Only person who works seven days a week; works both inside and outside the district,
+Ibrahim,46,15,0,6,30,12030,Unwilling to exert himself; frequent complainer; intelligent and knows the market well,Handles a prominent part of the city
+Mahesh,38,9,0,6,56,19872,Operates in predominantly rural territories,"Additional income source of ₹20,000/month from paper transportation"
+Praveen,30,1,0,6,49,18460,Very diligent; hard working and ambitious; looking for new growth opportunities,Previous experience procuring and distributing coconuts in a similar region
+Salim,32,0.25,0,6,20,6023,"Inexperienced; hard working; not street smart, needs to be oriented",Aspires to open own retail outlet"""
+    
+    map_data_csv = """Scenario,Sales_Rep,Territory_Code,Territory_Name,Latitude,Longitude,Retail_Outlets_Served_Territory,Total_Potential_Outlets_Territory,Reps_Serving_This_Territory_In_Scenario
+Current (As-Is),Bheem,A,Azam Nagar-Kangrali,15.882,74.513,27,36,3
+Current (As-Is),Bheem,C,Sadashiv Nagar,15.865,74.505,39,50,4
+Current (As-Is),Bheem,D,Nehru Nagar,15.86,74.507,21,31,2
+Current (As-Is),Bheem,E,Hindalga,15.83,74.47,15,20,2
+Current (As-Is),Bheem,F,Camp-Nanawadi,15.848,74.497,26,42,3
+Current (As-Is),Bheem,G,Khade Bazaar,15.853,74.503,10,32,2
+Current (As-Is),Bheem,L,Kapleshwar,15.848,74.502,7,21,2
+Current (As-Is),Govind,J,R.C. Nagar,15.842,74.515,27,52,2
+Current (As-Is),Govind,K,Tilakwadi,15.8377,74.5009,28,37,2
+Current (As-Is),Govind,M,Shahpur,15.843,74.5176,16,25,2
+Current (As-Is),Govind,O,Mache-Peeranwadi,15.83,74.46,12,32,2
+Current (As-Is),Govind,P,Udyambag,15.8,74.49,11,34,2
+Current (As-Is),Govind,Q,Majagaon,15.95,74.55,8,14,1
+Current (As-Is),Govind,R,Angol-Bhagya Nagar,15.815,74.505,13,39,2
+Current (As-Is),Govind,T,Vadgaon,15.8,74.51,6,7,2
+Current (As-Is),Hari,C,Sadashiv Nagar,15.865,74.505,39,50,4
+Current (As-Is),Hari,D,Nehru Nagar,15.86,74.507,21,31,2
+Current (As-Is),Hari,E,Hindalga,15.83,74.47,15,20,2
+Current (As-Is),Hari,F,Camp-Nanawadi,15.848,74.497,26,42,3
+Current (As-Is),Hari,G,Khade Bazaar,15.853,74.503,10,32,2
+Current (As-Is),Hari,L,Kapleshwar,15.848,74.502,7,21,2
+Current (As-Is),Hari,M,Shahpur,15.843,74.5176,16,25,2
+Current (As-Is),Ibrahim,F,Camp-Nanawadi,15.848,74.497,26,42,3
+Current (As-Is),Ibrahim,J,R.C. Nagar,15.842,74.515,27,52,2
+Current (As-Is),Ibrahim,K,Tilakwadi,15.8377,74.5009,28,37,2
+Current (As-Is),Ibrahim,P,Udyambag,15.8,74.49,11,34,2
+Current (As-Is),Ibrahim,R,Angol-Bhagya Nagar,15.815,74.505,13,39,2
+Current (As-Is),Ibrahim,S,Hindwadi,15.85,74.495,2,3,1
+Current (As-Is),Ibrahim,T,Vadgaon,15.8,74.51,6,7,2
+Current (As-Is),Ibrahim,O,Mache-Peeranwadi,15.83,74.46,12,32,2
+Current (As-Is),Mahesh,N,Navge,15.9,74.56,19,26,1
+Current (As-Is),Mahesh,B,Sulga,15.871,74.535,24,33,2
+Current (As-Is),Mahesh,I,Mandoli,15.84,74.54,30,38,1
+Current (As-Is),Praveen,C,Sadashiv Nagar,15.865,74.505,39,50,4
+Current (As-Is),Praveen,H,Gandhi Nagar,15.845,74.51,37,52,2
+Current (As-Is),Praveen,A,Azam Nagar-Kangrali,15.882,74.513,27,36,3
+Current (As-Is),Salim,A,Azam Nagar-Kangrali,15.882,74.513,27,36,3
+Current (As-Is),Salim,B,Sulga,15.871,74.535,24,33,2
+Current (As-Is),Salim,C,Sadashiv Nagar,15.865,74.505,39,50,4
+Current (As-Is),Salim,H,Gandhi Nagar,15.845,74.51,37,52,2
+Proposed (Realignment),Bheem,A,Azam Nagar-Kangrali,15.882,74.513,27,36,2
+Proposed (Realignment),Bheem,C,Sadashiv Nagar,15.865,74.505,39,50,1
+Proposed (Realignment),Bheem,E,Hindalga,15.83,74.47,15,20,1
+Proposed (Realignment),Govind,J,R.C. Nagar,15.842,74.515,27,52,1
+Proposed (Realignment),Govind,O,Mache-Peeranwadi,15.83,74.46,12,32,1
+Proposed (Realignment),Govind,P,Udyambag,15.8,74.49,11,34,1
+Proposed (Realignment),Govind,Q,Majagaon,15.95,74.55,8,14,1
+Proposed (Realignment),Govind,R,Angol-Bhagya Nagar,15.815,74.505,13,39,2
+Proposed (Realignment),Hari,F,Camp-Nanawadi,15.848,74.497,26,42,1
+Proposed (Realignment),Hari,G,Khade Bazaar,15.853,74.503,10,32,1
+Proposed (Realignment),Hari,L,Kapleshwar,15.848,74.502,7,21,1
+Proposed (Realignment),Hari,M,Shahpur,15.843,74.5176,16,25,1
+Proposed (Realignment),Ibrahim,K,Tilakwadi,15.8377,74.5009,28,37,1
+Proposed (Realignment),Ibrahim,R,Angol-Bhagya Nagar,15.815,74.505,13,39,2
+Proposed (Realignment),Ibrahim,T,Vadgaon,15.8,74.51,6,7,1
+Proposed (Realignment),Ibrahim,S,Hindwadi,15.85,74.495,2,3,1
+Proposed (Realignment),Mahesh,N,Navge,15.9,74.56,19,26,1
+Proposed (Realignment),Mahesh,B,Sulga,15.871,74.535,24,33,1
+Proposed (Realignment),Mahesh,I,Mandoli,15.84,74.54,30,38,1
+Proposed (Realignment),Praveen,,Outside Belagavi district,,,,,
+Proposed (Realignment),Salim,A,Azam Nagar-Kangrali,15.882,74.513,27,36,2
+Proposed (Realignment),Salim,D,Nehru Nagar,15.86,74.507,21,31,1
+Proposed (Realignment),Salim,H,Gandhi Nagar,15.845,74.51,37,52,1"""
+    
+    outlet_flow_csv = """From_Rep_Loses_Outlets,To_Rep_Gains_Outlets,Retail_Outlets_Transferred
+Hari,Bheem,5
+Hari,Govind,3
+Ibrahim,Govind,5
+Bheem,Hari,2
+Govind,Hari,5
+Ibrahim,Hari,7
+Bheem,Ibrahim,1
+Govind,Ibrahim,4
+Hari,Ibrahim,4
+Bheem,Praveen,7
+Bheem,Salim,15
+Praveen,Salim,10"""
+    
+    sales_flow_csv = """From_Rep_Loses_Sales,To_Rep_Gains_Sales,Sales_Transferred_INR_Thousands_Per_Month
+Hari,Bheem,70
+Hari,Govind,16
+Ibrahim,Govind,29
+Bheem,Hari,30
+Govind,Hari,49
+Ibrahim,Hari,11
+Bheem,Ibrahim,26
+Govind,Ibrahim,28
+Hari,Ibrahim,18
+Bheem,Praveen,38
+Bheem,Salim,65
+Praveen,Salim,25"""
+    
+    rep_impact_csv = """Sales_Rep,Total_Retail_Outlets,Avg_Daily_Sales_INR,Territories_Current_Count,Fuel_Expense_Per_Day_Current_INR,Territories_Proposed_Count,Fuel_Expense_Per_Day_Proposed_INR,Fuel_Savings_Per_Day_INR
+Bheem,106,25462,7,450,3,350,100
+Govind,61,21830,8,450,5,300,150
+Hari,56,25900,7,650,4,700,-50
+Ibrahim,30,12030,8,350,4,300,50
+Mahesh,56,19872,3,600,3,600,0
+Praveen,49,18460,3,500,0,800,-300
+Salim,20,6023,4,400,3,300,100"""
+
+    territories = pd.read_csv(io.StringIO(territories_csv))
+    reps = pd.read_csv(io.StringIO(reps_csv))
+    map_data = pd.read_csv(io.StringIO(map_data_csv)).dropna(subset=["Latitude", "Longitude"])
+    outlet_flow = pd.read_csv(io.StringIO(outlet_flow_csv))
+    sales_flow = pd.read_csv(io.StringIO(sales_flow_csv))
+    rep_impact = pd.read_csv(io.StringIO(rep_impact_csv))
+    
     return territories, reps, map_data, outlet_flow, sales_flow, rep_impact
 
 territories, reps, map_data, outlet_flow, sales_flow, rep_impact = load_data()

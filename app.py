@@ -447,7 +447,9 @@ fig_fuel.update_layout(
     font=dict(color=BROWN), # Force Bar Chart Text Color
 )
 fig_fuel.update_xaxes(tickfont=dict(color=BROWN), gridcolor="#ddd1b8")
-fig_fuel.update_yaxes(tickfont=dict(color=BROWN), titlefont=dict(color=BROWN), gridcolor="#ddd1b8")
+
+# FIXED: Changed titlefont to title_font to fix the ValueError
+fig_fuel.update_yaxes(tickfont=dict(color=BROWN), title_font=dict(color=BROWN), gridcolor="#ddd1b8")
 
 # NOTE: theme=None blocks Streamlit from turning the chart text white!
 st.plotly_chart(fig_fuel, use_container_width=True, theme=None)

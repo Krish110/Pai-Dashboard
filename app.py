@@ -367,6 +367,7 @@ with map_col:
         margin=dict(l=0, r=0, t=0, b=0),
         legend=dict(orientation="h", yanchor="bottom", y=-0.15),
         paper_bgcolor=CREAM,
+        font=dict(color=BROWN), # Force Map Text Color
     )
     # Ring the overlapping territories in rust
     overlap_pts = plot_df[plot_df["overlap"]]
@@ -382,7 +383,8 @@ with map_col:
                 marker_symbol=None,
             )
         )
-    st.plotly_chart(fig, use_container_width=True)
+    # NOTE: theme=None blocks Streamlit from turning the map text white!
+    st.plotly_chart(fig, use_container_width=True, theme=None)
 
 with side_col:
     st.subheader("Reps & Load")
@@ -442,8 +444,13 @@ fig_fuel.update_layout(
     legend_title_text="",
     xaxis_title="",
     yaxis_title="₹ per day",
+    font=dict(color=BROWN), # Force Bar Chart Text Color
 )
-st.plotly_chart(fig_fuel, use_container_width=True)
+fig_fuel.update_xaxes(tickfont=dict(color=BROWN), gridcolor="#ddd1b8")
+fig_fuel.update_yaxes(tickfont=dict(color=BROWN), titlefont=dict(color=BROWN), gridcolor="#ddd1b8")
+
+# NOTE: theme=None blocks Streamlit from turning the chart text white!
+st.plotly_chart(fig_fuel, use_container_width=True, theme=None)
 
 st.divider()
 
@@ -463,6 +470,7 @@ with flow_col1:
     rep_idx = {r: i for i, r in enumerate(reps_list)}
     fig_sankey = go.Figure(
         go.Sankey(
+            textfont=dict(color=BROWN, size=12), # Force Sankey Text Color
             node=dict(
                 label=reps_list,
                 color=[REP_COLORS.get(r, "#999") for r in reps_list],
@@ -477,8 +485,14 @@ with flow_col1:
             ),
         )
     )
-    fig_sankey.update_layout(height=380, paper_bgcolor=CREAM, margin=dict(l=10, r=10, t=10, b=10))
-    st.plotly_chart(fig_sankey, use_container_width=True)
+    fig_sankey.update_layout(
+        height=380, 
+        paper_bgcolor=CREAM, 
+        margin=dict(l=10, r=10, t=10, b=10),
+        font=dict(color=BROWN) # Force Layout Text Color
+    )
+    # NOTE: theme=None blocks Streamlit from turning the sankey text white!
+    st.plotly_chart(fig_sankey, use_container_width=True, theme=None)
 
 with flow_col2:
     for _, row in outlet_flow.sort_values("Retail_Outlets_Transferred", ascending=False).iterrows():

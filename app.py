@@ -14,7 +14,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 # ----------------------------------------------------------------------------
-# PAGE CONFIG + THEME (matches the "Baking the Boundaries" deck palette)
+# PAGE CONFIG + THEME
 # ----------------------------------------------------------------------------
 st.set_page_config(
     page_title="Pai's Bakery — Territory Realignment Dashboard",
@@ -40,25 +40,46 @@ REP_COLORS = {
     "Salim": "#8A5A2B",
 }
 
+# The expanded CSS block forces the text to stay dark brown regardless of system Dark Mode settings.
 st.markdown(
     f"""
     <style>
+    /* Force main and sidebar backgrounds */
     .stApp {{ background-color: {CREAM}; }}
-    h1, h2, h3 {{ color: {BROWN} !important; }}
+    section[data-testid="stSidebar"] {{ background-color: {CREAM2}; }}
+    
+    /* Force standard typography to be dark brown to prevent Dark Mode invisibility */
+    p, li, label, h1, h2, h3, h4, h5, h6, .stCaptionContainer span {{
+        color: {BROWN} !important;
+    }}
+    
+    /* Specifically target sidebar text to ensure readability */
+    [data-testid="stSidebar"] p, [data-testid="stSidebar"] li, [data-testid="stSidebar"] label {{
+        color: {BROWN} !important;
+    }}
+
+    /* Custom KPI Card Styling */
     .kpi-card {{
         background: {CREAM2}; border-left: 5px solid {RUST}; border-radius: 6px;
         padding: 14px 18px; margin-bottom: 6px;
     }}
-    .kpi-label {{ font-size: 12px; text-transform: uppercase; letter-spacing: 1px;
-                  color: {BROWN2}; margin-bottom: 4px; }}
-    .kpi-value {{ font-size: 28px; font-weight: 800; color: {BROWN}; }}
-    .kpi-delta-good {{ color: {OLIVE}; font-weight: 700; font-size: 13px; }}
-    .kpi-delta-bad {{ color: {RUST}; font-weight: 700; font-size: 13px; }}
+    .kpi-label {{ font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: {BROWN2} !important; margin-bottom: 4px; }}
+    .kpi-value {{ font-size: 28px; font-weight: 800; color: {BROWN} !important; }}
+    .kpi-delta-good {{ color: {OLIVE} !important; font-weight: 700; font-size: 13px; }}
+    .kpi-delta-bad {{ color: {RUST} !important; font-weight: 700; font-size: 13px; }}
+    
+    /* Custom Badges and specific text formatting */
     .brand-badge {{
         display:inline-block; border: 1.5px solid {GOLD}; border-radius: 20px;
-        padding: 6px 18px; color: {GOLD}; font-style: italic; font-size: 15px;
+        padding: 6px 18px; color: {GOLD} !important; font-style: italic; font-size: 15px;
     }}
-    section[data-testid="stSidebar"] {{ background-color: {CREAM2}; }}
+    .brand-badge small {{ color: {BROWN2} !important; font-style:normal; }}
+    .title-badge {{
+        background: {RUST} !important; color: {CREAM} !important; font-weight:800; font-size:12px;
+        padding:4px 10px; border-radius:3px; letter-spacing:1px;
+    }}
+    .flow-text {{ color: {BROWN} !important; }}
+    .flow-count {{ color: {RUST} !important; float:right; font-weight:800; }}
     </style>
     """,
     unsafe_allow_html=True,
@@ -219,8 +240,7 @@ territories, reps, map_data, outlet_flow, sales_flow, rep_impact = load_data()
 col_title, col_brand = st.columns([4, 1])
 with col_title:
     st.markdown(
-        f"<span style='background:{RUST}; color:{CREAM}; font-weight:800; font-size:12px; "
-        f"padding:4px 10px; border-radius:3px; letter-spacing:1px;'>10</span> "
+        f"<span class='title-badge'>10</span> "
         f"<span style='font-size:22px; font-weight:800; text-transform:uppercase; color:{BROWN};'>"
         f"Territory Realignment Dashboard</span>",
         unsafe_allow_html=True,
@@ -228,8 +248,7 @@ with col_title:
     st.caption("As-Is vs. Proposed — Belagavi Sales Coverage · Ivey Case W25442")
 with col_brand:
     st.markdown(
-        f"<div class='brand-badge'>Pai's<br><small style='color:{BROWN2}; font-style:normal;'>"
-        f"BAKERY DASHBOARD</small></div>",
+        f"<div class='brand-badge'>Pai's<br><small>BAKERY DASHBOARD</small></div>",
         unsafe_allow_html=True,
     )
 
@@ -383,8 +402,8 @@ with side_col:
             f"border-bottom:1px dotted #ddd1b8;'>"
             f"<span style='width:11px; height:11px; border-radius:50%; background:{REP_COLORS[rep]}; "
             f"display:inline-block;'></span>"
-            f"<b style='width:60px; display:inline-block;'>{rep}</b>"
-            f"<span style='margin-left:auto; color:{BROWN2};'>{note}</span></div>",
+            f"<b class='flow-text' style='width:60px; display:inline-block;'>{rep}</b>"
+            f"<span style='margin-left:auto; color:{BROWN2} !important;'>{note}</span></div>",
             unsafe_allow_html=True,
         )
 
@@ -466,8 +485,8 @@ with flow_col2:
         st.markdown(
             f"<div style='background:{CREAM2}; border-left:4px solid {RUST}; border-radius:6px; "
             f"padding:8px 14px; margin-bottom:6px; font-size:13px;'>"
-            f"<b>{row['From_Rep_Loses_Outlets']}</b> &rarr; <b>{row['To_Rep_Gains_Outlets']}</b>"
-            f"<span style='float:right; font-weight:800; color:{RUST};'>"
+            f"<span class='flow-text'><b>{row['From_Rep_Loses_Outlets']}</b> &rarr; <b>{row['To_Rep_Gains_Outlets']}</b></span>"
+            f"<span class='flow-count'>"
             f"{int(row['Retail_Outlets_Transferred'])} outlets</span></div>",
             unsafe_allow_html=True,
         )

@@ -340,13 +340,21 @@ with map_col:
     plot_df["overlap"] = plot_df["Reps_Serving_This_Territory_In_Scenario"] > 1
     plot_df["marker_size"] = plot_df["Retail_Outlets_Served_Territory"].clip(lower=3)
 
+    # JITTER LOGIC: Offset dots so all reps are visible in shared territories
+    plot_df["rank"] = plot_df.groupby("Territory_Code").cumcount()
+    max_ranks = plot_df.groupby("Territory_Code")["rank"].transform('max')
+    
+    # Add a tiny offset to fan overlapping dots out diagonally
+    plot_df["Latitude"] = plot_df["Latitude"] + ((plot_df["rank"] - (max_ranks / 2)) * 0.004)
+    plot_df["Longitude"] = plot_df["Longitude"] + ((plot_df["rank"] - (max_ranks / 2)) * 0.004)
+
     fig = px.scatter_map(
         plot_df,
         lat="Latitude",
         lon="Longitude",
         color="Sales_Rep",
         size="marker_size",
-        size_max=32,
+        size_max=28,
         hover_name="Territory_Name",
         hover_data={
             "Territory_Code": True,
@@ -356,6 +364,8 @@ with map_col:
             "Latitude": False,
             "Longitude": False,
             "marker_size": False,
+            "rank": False,
+            "overlap": False
         },
         color_discrete_map=REP_COLORS,
         zoom=12,
@@ -369,18 +379,22 @@ with map_col:
         paper_bgcolor=CREAM,
         font=dict(color=BROWN), # Force Map Text Color
     )
-    # Ring the overlapping territories in rust
-    overlap_pts = plot_df[plot_df["overlap"]]
-    if not overlap_pts.empty:
+    
+    # OVERLAP RINGS FIX: Add the missing border line property!
+    overlap_centroids = scenario_df[scenario_df["Reps_Serving_This_Territory_In_Scenario"] > 1].drop_duplicates("Territory_Code")
+    if not overlap_centroids.empty:
         fig.add_trace(
             go.Scattermap(
-                lat=overlap_pts["Latitude"],
-                lon=overlap_pts["Longitude"],
+                lat=overlap_centroids["Latitude"],
+                lon=overlap_centroids["Longitude"],
                 mode="markers",
-                marker=dict(size=overlap_pts["marker_size"] * 1.15, color="rgba(0,0,0,0)"),
+                marker=dict(
+                    size=40, # Fixed size for the bold ring 
+                    color="rgba(0,0,0,0)", # Transparent inside
+                    line=dict(width=3, color=RUST) # The bold, rust-colored border!
+                ),
                 hoverinfo="skip",
                 showlegend=False,
-                marker_symbol=None,
             )
         )
     # NOTE: theme=None blocks Streamlit from turning the map text white!
@@ -447,8 +461,6 @@ fig_fuel.update_layout(
     font=dict(color=BROWN), # Force Bar Chart Text Color
 )
 fig_fuel.update_xaxes(tickfont=dict(color=BROWN), gridcolor="#ddd1b8")
-
-# FIXED: Changed titlefont to title_font to fix the ValueError
 fig_fuel.update_yaxes(tickfont=dict(color=BROWN), title_font=dict(color=BROWN), gridcolor="#ddd1b8")
 
 # NOTE: theme=None blocks Streamlit from turning the chart text white!

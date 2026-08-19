@@ -1,0 +1,13 @@
+From_Rep_Loses_Outlets,To_Rep_Gains_Outlets,Retail_Outlets_Transferred
+Hari,Bheem,5
+Hari,Govind,3
+Ibrahim,Govind,5
+Bheem,Hari,2
+Govind,Hari,5
+Ibrahim,Hari,7
+Bheem,Ibrahim,1
+Govind,Ibrahim,4
+Hari,Ibrahim,4
+Bheem,Praveen,7
+Bheem,Salim,15
+Praveen,Salim,10

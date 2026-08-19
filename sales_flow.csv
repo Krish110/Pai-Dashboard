@@ -1,0 +1,13 @@
+From_Rep_Loses_Sales,To_Rep_Gains_Sales,Sales_Transferred_INR_Thousands_Per_Month
+Hari,Bheem,70
+Hari,Govind,16
+Ibrahim,Govind,29
+Bheem,Hari,30
+Govind,Hari,49
+Ibrahim,Hari,11
+Bheem,Ibrahim,26
+Govind,Ibrahim,28
+Hari,Ibrahim,18
+Bheem,Praveen,38
+Bheem,Salim,65
+Praveen,Salim,25

@@ -1,0 +1,42 @@
+Sales_Rep,Territory_Code,Territory_Name,Latitude,Longitude,Outside_Belagavi
+Bheem,A,Azam Nagar-Kangrali,15.882,74.513,False
+Bheem,C,Sadashiv Nagar,15.865,74.505,False
+Bheem,D,Nehru Nagar,15.86,74.507,False
+Bheem,E,Hindalga,15.83,74.47,False
+Bheem,F,Camp-Nanawadi,15.848,74.497,False
+Bheem,G,Khade Bazaar,15.853,74.503,False
+Bheem,L,Kapleshwar,15.848,74.502,False
+Govind,J,R.C. Nagar,15.842,74.515,False
+Govind,K,Tilakwadi,15.8377,74.5009,False
+Govind,M,Shahpur,15.843,74.5176,False
+Govind,O,Mache-Peeranwadi,15.83,74.46,False
+Govind,P,Udyambag,15.8,74.49,False
+Govind,Q,Majagaon,15.95,74.55,False
+Govind,R,Angol-Bhagya Nagar,15.815,74.505,False
+Govind,T,Vadgaon,15.8,74.51,False
+Hari,C,Sadashiv Nagar,15.865,74.505,False
+Hari,D,Nehru Nagar,15.86,74.507,False
+Hari,E,Hindalga,15.83,74.47,False
+Hari,F,Camp-Nanawadi,15.848,74.497,False
+Hari,G,Khade Bazaar,15.853,74.503,False
+Hari,L,Kapleshwar,15.848,74.502,False
+Hari,M,Shahpur,15.843,74.5176,False
+Ibrahim,F,Camp-Nanawadi,15.848,74.497,False
+Ibrahim,J,R.C. Nagar,15.842,74.515,False
+Ibrahim,K,Tilakwadi,15.8377,74.5009,False
+Ibrahim,P,Udyambag,15.8,74.49,False
+Ibrahim,R,Angol-Bhagya Nagar,15.815,74.505,False
+Ibrahim,S,Hindwadi,15.85,74.495,False
+Ibrahim,T,Vadgaon,15.8,74.51,False
+Ibrahim,O,Mache-Peeranwadi,15.83,74.46,False
+Mahesh,N,Navge,15.9,74.56,False
+Mahesh,B,Sulga,15.871,74.535,False
+Mahesh,I,Mandoli,15.84,74.54,False
+Praveen,C,Sadashiv Nagar,15.865,74.505,False
+Praveen,H,Gandhi Nagar,15.845,74.51,False
+Praveen,A,Azam Nagar-Kangrali,15.882,74.513,False
+Salim,A,Azam Nagar-Kangrali,15.882,74.513,False
+Salim,B,Sulga,15.871,74.535,False
+Salim,C,Sadashiv Nagar,15.865,74.505,False
+Salim,H,Gandhi Nagar,15.845,74.51,False
+"One row per territory a rep currently covers. Reconstructed from Exhibit 14's 'Territories Covered Under Current Plan' column; territory counts per rep match Exhibit 9 exactly (Bheem 7, Govind 8, Hari 7, Ibrahim 8, Mahesh 3, Praveen 3, Salim 4).",,,,,

@@ -1,0 +1,65 @@
+Scenario,Sales_Rep,Territory_Code,Territory_Name,Latitude,Longitude,Retail_Outlets_Served_Territory,Total_Potential_Outlets_Territory,Reps_Serving_This_Territory_In_Scenario
+Current (As-Is),Bheem,A,Azam Nagar-Kangrali,15.882,74.513,27,36,3
+Current (As-Is),Bheem,C,Sadashiv Nagar,15.865,74.505,39,50,4
+Current (As-Is),Bheem,D,Nehru Nagar,15.86,74.507,21,31,2
+Current (As-Is),Bheem,E,Hindalga,15.83,74.47,15,20,2
+Current (As-Is),Bheem,F,Camp-Nanawadi,15.848,74.497,26,42,3
+Current (As-Is),Bheem,G,Khade Bazaar,15.853,74.503,10,32,2
+Current (As-Is),Bheem,L,Kapleshwar,15.848,74.502,7,21,2
+Current (As-Is),Govind,J,R.C. Nagar,15.842,74.515,27,52,2
+Current (As-Is),Govind,K,Tilakwadi,15.8377,74.5009,28,37,2
+Current (As-Is),Govind,M,Shahpur,15.843,74.5176,16,25,2
+Current (As-Is),Govind,O,Mache-Peeranwadi,15.83,74.46,12,32,2
+Current (As-Is),Govind,P,Udyambag,15.8,74.49,11,34,2
+Current (As-Is),Govind,Q,Majagaon,15.95,74.55,8,14,1
+Current (As-Is),Govind,R,Angol-Bhagya Nagar,15.815,74.505,13,39,2
+Current (As-Is),Govind,T,Vadgaon,15.8,74.51,6,7,2
+Current (As-Is),Hari,C,Sadashiv Nagar,15.865,74.505,39,50,4
+Current (As-Is),Hari,D,Nehru Nagar,15.86,74.507,21,31,2
+Current (As-Is),Hari,E,Hindalga,15.83,74.47,15,20,2
+Current (As-Is),Hari,F,Camp-Nanawadi,15.848,74.497,26,42,3
+Current (As-Is),Hari,G,Khade Bazaar,15.853,74.503,10,32,2
+Current (As-Is),Hari,L,Kapleshwar,15.848,74.502,7,21,2
+Current (As-Is),Hari,M,Shahpur,15.843,74.5176,16,25,2
+Current (As-Is),Ibrahim,F,Camp-Nanawadi,15.848,74.497,26,42,3
+Current (As-Is),Ibrahim,J,R.C. Nagar,15.842,74.515,27,52,2
+Current (As-Is),Ibrahim,K,Tilakwadi,15.8377,74.5009,28,37,2
+Current (As-Is),Ibrahim,P,Udyambag,15.8,74.49,11,34,2
+Current (As-Is),Ibrahim,R,Angol-Bhagya Nagar,15.815,74.505,13,39,2
+Current (As-Is),Ibrahim,S,Hindwadi,15.85,74.495,2,3,1
+Current (As-Is),Ibrahim,T,Vadgaon,15.8,74.51,6,7,2
+Current (As-Is),Ibrahim,O,Mache-Peeranwadi,15.83,74.46,12,32,2
+Current (As-Is),Mahesh,N,Navge,15.9,74.56,19,26,1
+Current (As-Is),Mahesh,B,Sulga,15.871,74.535,24,33,2
+Current (As-Is),Mahesh,I,Mandoli,15.84,74.54,30,38,1
+Current (As-Is),Praveen,C,Sadashiv Nagar,15.865,74.505,39,50,4
+Current (As-Is),Praveen,H,Gandhi Nagar,15.845,74.51,37,52,2
+Current (As-Is),Praveen,A,Azam Nagar-Kangrali,15.882,74.513,27,36,3
+Current (As-Is),Salim,A,Azam Nagar-Kangrali,15.882,74.513,27,36,3
+Current (As-Is),Salim,B,Sulga,15.871,74.535,24,33,2
+Current (As-Is),Salim,C,Sadashiv Nagar,15.865,74.505,39,50,4
+Current (As-Is),Salim,H,Gandhi Nagar,15.845,74.51,37,52,2
+Proposed (Realignment),Bheem,A,Azam Nagar-Kangrali,15.882,74.513,27,36,2
+Proposed (Realignment),Bheem,C,Sadashiv Nagar,15.865,74.505,39,50,1
+Proposed (Realignment),Bheem,E,Hindalga,15.83,74.47,15,20,1
+Proposed (Realignment),Govind,J,R.C. Nagar,15.842,74.515,27,52,1
+Proposed (Realignment),Govind,O,Mache-Peeranwadi,15.83,74.46,12,32,1
+Proposed (Realignment),Govind,P,Udyambag,15.8,74.49,11,34,1
+Proposed (Realignment),Govind,Q,Majagaon,15.95,74.55,8,14,1
+Proposed (Realignment),Govind,R,Angol-Bhagya Nagar,15.815,74.505,13,39,2
+Proposed (Realignment),Hari,F,Camp-Nanawadi,15.848,74.497,26,42,1
+Proposed (Realignment),Hari,G,Khade Bazaar,15.853,74.503,10,32,1
+Proposed (Realignment),Hari,L,Kapleshwar,15.848,74.502,7,21,1
+Proposed (Realignment),Hari,M,Shahpur,15.843,74.5176,16,25,1
+Proposed (Realignment),Ibrahim,K,Tilakwadi,15.8377,74.5009,28,37,1
+Proposed (Realignment),Ibrahim,R,Angol-Bhagya Nagar,15.815,74.505,13,39,2
+Proposed (Realignment),Ibrahim,T,Vadgaon,15.8,74.51,6,7,1
+Proposed (Realignment),Ibrahim,S,Hindwadi,15.85,74.495,2,3,1
+Proposed (Realignment),Mahesh,N,Navge,15.9,74.56,19,26,1
+Proposed (Realignment),Mahesh,B,Sulga,15.871,74.535,24,33,1
+Proposed (Realignment),Mahesh,I,Mandoli,15.84,74.54,30,38,1
+Proposed (Realignment),Praveen,,Outside Belagavi district,,,,,
+Proposed (Realignment),Salim,A,Azam Nagar-Kangrali,15.882,74.513,27,36,2
+Proposed (Realignment),Salim,D,Nehru Nagar,15.86,74.507,21,31,1
+Proposed (Realignment),Salim,H,Gandhi Nagar,15.845,74.51,37,52,1
+"This is the single table to drop onto a Power BI Map/ArcGIS visual: Latitude/Longitude for location, Sales_Rep for legend/color, Scenario as a slicer to flip between the current and proposed maps. Reps_Serving_This_Territory_In_Scenario > 1 flags overlapping/duplicated coverage — this count is consistently higher in 'Current (As-Is)' than in 'Proposed (Realignment)', which is the core problem the realignment plan fixes.",,,,,,,,

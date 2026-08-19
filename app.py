@@ -380,7 +380,7 @@ with map_col:
         font=dict(color=BROWN), # Force Map Text Color
     )
     
-    # OVERLAP RINGS FIX: Add the missing border line property!
+    # OVERLAP HALO FIX: Using a semi-transparent fill color instead of an unsupported 'line' property
     overlap_centroids = scenario_df[scenario_df["Reps_Serving_This_Territory_In_Scenario"] > 1].drop_duplicates("Territory_Code")
     if not overlap_centroids.empty:
         fig.add_trace(
@@ -389,9 +389,8 @@ with map_col:
                 lon=overlap_centroids["Longitude"],
                 mode="markers",
                 marker=dict(
-                    size=40, # Fixed size for the bold ring 
-                    color="rgba(0,0,0,0)", # Transparent inside
-                    line=dict(width=3, color=RUST) # The bold, rust-colored border!
+                    size=42, # Size of the highlight halo
+                    color="rgba(177, 74, 38, 0.25)", # A semi-transparent rust color halo
                 ),
                 hoverinfo="skip",
                 showlegend=False,
@@ -461,6 +460,8 @@ fig_fuel.update_layout(
     font=dict(color=BROWN), # Force Bar Chart Text Color
 )
 fig_fuel.update_xaxes(tickfont=dict(color=BROWN), gridcolor="#ddd1b8")
+
+# FIXED: Changed titlefont to title_font to fix the ValueError
 fig_fuel.update_yaxes(tickfont=dict(color=BROWN), title_font=dict(color=BROWN), gridcolor="#ddd1b8")
 
 # NOTE: theme=None blocks Streamlit from turning the chart text white!
